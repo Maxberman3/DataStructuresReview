@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace MaxDataStructures
 {
-    public class HashTable<T,V>
+    public class HashTable<T, V>
     {
         private int size;
         private int filled;
-        private List<HashNode<T,V>>[] baseArray;
+        private List<HashNode<T, V>>[] baseArray;
         private decimal loadFactor
         {
             get
@@ -19,28 +19,40 @@ namespace MaxDataStructures
         {
             size = 19;
             filled = 0;
-            baseArray = new List<HashNode<T,V>>[size];
+            baseArray = new List<HashNode<T, V>>[size];
             InitializeBaseArray();
         }
         private int Hash(T input)
         {
             string hashString = input.ToString();
             int hash = 0;
-            foreach(char c in hashString)
+            foreach (char c in hashString)
             {
                 hash = hash * 65599 + c;
             }
             return hash % size;
         }
+        public V Get(T key)
+        {
+            int hash = Hash(key);
+            foreach (var node in baseArray[hash])
+            {
+                if (node.Key.Equals(key))
+                {
+                    return node.Value;
+                }
+            }
+            throw new Exception($"There was no matching key in the hashtable for the input {key}");
+        }
         public void Put(T key, V value)
         {
             int index = Hash(key);
-            if (baseArray[index].Count==0)
+            if (baseArray[index].Count == 0)
             {
                 filled++;
             }
-            baseArray[index].Add(new HashNode<T, V>(key,value));
-            if (loadFactor > (decimal) 0.75)
+            baseArray[index].Add(new HashNode<T, V>(key, value));
+            if (loadFactor > (decimal)0.75)
             {
                 Resize();
             }
@@ -50,11 +62,11 @@ namespace MaxDataStructures
             GetNextPrime();
             filled = 0;
             List<HashNode<T, V>>[] oldArray = baseArray;
-            baseArray= new List<HashNode<T, V>>[size];
+            baseArray = new List<HashNode<T, V>>[size];
             InitializeBaseArray();
-            for(int i= 0; i < oldArray.Length; i++)
+            for (int i = 0; i < oldArray.Length; i++)
             {
-                foreach(HashNode<T,V> node in oldArray[i])
+                foreach (HashNode<T, V> node in oldArray[i])
                 {
                     Put(node.Key, node.Value);
                 }
@@ -75,13 +87,13 @@ namespace MaxDataStructures
         }
         private bool IsPrime(int x)
         {
-            if(x%2==0 || x % 3 == 0)
+            if (x % 2 == 0 || x % 3 == 0)
             {
                 return false;
             }
             for (int i = 5; i * i <= x; i += 6)
             {
-                if(x%i==0 || x % (i + 2) == 0)
+                if (x % i == 0 || x % (i + 2) == 0)
                 {
                     return false;
                 }
@@ -90,7 +102,7 @@ namespace MaxDataStructures
         }
         private void InitializeBaseArray()
         {
-            for(int i=0;i<baseArray.Length; i++)
+            for (int i = 0; i < baseArray.Length; i++)
             {
                 baseArray[i] = new List<HashNode<T, V>>();
             }
