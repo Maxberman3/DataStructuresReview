@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MaxDataStructures
+﻿namespace MaxDataStructures
 {
     public class BinarySearchTree
     {
@@ -62,17 +60,17 @@ namespace MaxDataStructures
                 Root.Left.Remove(value, Root);
             }
         }
-        public void InOrderPrint()
+        public string InOrderPrint()
         {
-            Root.InOrderPrint();
+            return Root.InOrderPrint();
         }
-        public void PreOrderPrint()
+        public string PreOrderPrint()
         {
-            Root.PreOrderPrint();
+            return Root.PreOrderPrint();
         }
-        public void PostOrderPrint()
+        public string PostOrderPrint()
         {
-            Root.PostOrderPrint();
+            return Root.PostOrderPrint();
         }
 
 
@@ -212,41 +210,47 @@ namespace MaxDataStructures
                 }
                 return false;
             }
-            public void InOrderPrint()
+            public string InOrderPrint()
             {
+                string str = "";
                 if (Left != null)
                 {
-                    Left.InOrderPrint();
+                    str += Left.InOrderPrint();
                 }
-                Console.WriteLine(Value);
+                str += Value;
                 if (Right != null)
                 {
-                    Right.InOrderPrint();
+                    str += Right.InOrderPrint();
                 }
+                return str;
             }
-            public void PreOrderPrint()
+            public string PreOrderPrint()
             {
-                Console.WriteLine(Value);
+                string str = "";
+                str += Value;
                 if (Left != null)
                 {
-                    Left.PreOrderPrint();
+                    str += Left.PreOrderPrint();
                 }
                 if (Right != null)
                 {
-                    Right.PreOrderPrint();
+                    str += Right.PreOrderPrint();
                 }
+                return str;
             }
-            public void PostOrderPrint()
+            public string PostOrderPrint()
             {
+                string str = "";
                 if (Left != null)
                 {
-                    Left.PostOrderPrint();
+                    str += Left.PostOrderPrint();
                 }
                 if (Right != null)
                 {
-                    Right.PostOrderPrint();
+                    str += Right.PostOrderPrint();
                 }
-                Console.WriteLine(Value);
+                str += Value;
+                return str;
             }
         }
     }
