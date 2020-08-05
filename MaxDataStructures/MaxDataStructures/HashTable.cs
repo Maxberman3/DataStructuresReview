@@ -12,7 +12,7 @@ namespace MaxDataStructures
         {
             get
             {
-                return Decimal.Round(filled / size, 2);
+                return decimal.Round(filled / size, 2);
             }
         }
         public HashTable()
@@ -28,14 +28,14 @@ namespace MaxDataStructures
             int hash = 0;
             foreach (char c in hashString)
             {
-                hash = hash * 65599 + c;
+                hash = hash * 31 + c;
             }
-            return hash % size;
+            return Math.Abs(hash) % size;
         }
         public V Get(T key)
         {
             int hash = Hash(key);
-            foreach (var node in baseArray[hash])
+            foreach (HashNode<T, V> node in baseArray[hash])
             {
                 if (node.Key.Equals(key))
                 {
