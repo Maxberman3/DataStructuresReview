@@ -26,7 +26,7 @@ namespace DataStructureUnitTests
         [TestMethod]
         public void TestPerformance()
         {
-            //In the future, I need to add some testing for large amounts of data, both to test that the table is in fact producing a constant time lookup, as well as making sure the resize funcions behave correctly.
+            //TODO: In the future, I need to add some testing for large amounts of data, both to test that the table is in fact producing a constant time lookup, as well as making sure the resize funcions behave correctly.
         }
     }
 }
