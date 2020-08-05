@@ -1,4 +1,6 @@
-﻿namespace MaxDataStructures
+﻿using System;
+
+namespace MaxDataStructures
 {
     public class BinarySearchTree
     {
@@ -26,6 +28,10 @@
 
         public void Remove(int value)
         {
+            if (Root == null)
+            {
+                return;
+            }
             if (value == Root.Value)
             {
                 if (Root.IsLeaf())
@@ -55,6 +61,18 @@
             {
                 Root.Left.Remove(value, Root);
             }
+        }
+        public void InOrderPrint()
+        {
+            Root.InOrderPrint();
+        }
+        public void PreOrderPrint()
+        {
+            Root.PreOrderPrint();
+        }
+        public void PostOrderPrint()
+        {
+            Root.PostOrderPrint();
         }
 
 
@@ -193,6 +211,42 @@
                     return true;
                 }
                 return false;
+            }
+            public void InOrderPrint()
+            {
+                if (Left != null)
+                {
+                    Left.InOrderPrint();
+                }
+                Console.WriteLine(Value);
+                if (Right != null)
+                {
+                    Right.InOrderPrint();
+                }
+            }
+            public void PreOrderPrint()
+            {
+                Console.WriteLine(Value);
+                if (Left != null)
+                {
+                    Left.PreOrderPrint();
+                }
+                if (Right != null)
+                {
+                    Right.PreOrderPrint();
+                }
+            }
+            public void PostOrderPrint()
+            {
+                if (Left != null)
+                {
+                    Left.PostOrderPrint();
+                }
+                if (Right != null)
+                {
+                    Right.PostOrderPrint();
+                }
+                Console.WriteLine(Value);
             }
         }
     }
