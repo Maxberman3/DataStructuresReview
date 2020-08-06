@@ -26,29 +26,34 @@
 
         public void Remove(int value)
         {
-            if (Root == null)
-            {
-                return;
-            }
             if (value == Root.Value)
             {
                 if (Root.IsLeaf())
                 {
                     Root = null;
                 }
-                else if (Root.Right == null && Root.Left != null)
-                {
-                    Root = Root.Left;
-                }
-                else if (Root.Right != null && Root.Left == null)
+                else if (Root.Left == null && Root.Right != null)
                 {
                     Root = Root.Right;
                 }
+                else if (Root.Left != null && Root.Right == null)
+                {
+                    Root = Root.Left;
+                }
                 else
                 {
-                    int temp = Root.Right.Value;
-                    Root.Right.Remove(temp, Root);
-                    Root.Value = temp;
+                    if (Root.Left.Right != null)
+                    {
+                        int temp = Root.Left.Right.Value;
+                        Root.Left.Remove(temp, Root);
+                        Root.Value = temp;
+                    }
+                    else
+                    {
+                        int temp = Root.Left.Value;
+                        Root.Value = temp;
+                        Root.Left.Remove(temp, Root);
+                    }
                 }
             }
             else if (value > Root.Value)
@@ -59,6 +64,7 @@
             {
                 Root.Left.Remove(value, Root);
             }
+
         }
         public string InOrderPrint()
         {
@@ -141,7 +147,7 @@
             public void Remove(int val, BinarySearchTreeNode Previous)
             {
                 bool wentLeft = Previous.Value >= Value;
-                if (val == Value)
+                if (Value == val)
                 {
                     if (IsLeaf())
                     {
@@ -152,17 +158,6 @@
                         else
                         {
                             Previous.Right = null;
-                        }
-                    }
-                    else if (Left == null && Right != null)
-                    {
-                        if (wentLeft)
-                        {
-                            Previous.Left = Right;
-                        }
-                        else
-                        {
-                            Previous.Right = Right;
                         }
                     }
                     else if (Left != null && Right == null)
@@ -176,18 +171,28 @@
                             Previous.Right = Left;
                         }
                     }
-                    else
+                    else if (Right != null && Left == null)
                     {
-                        int temp;
                         if (wentLeft)
                         {
-                            temp = Right.Value;
-                            Right.Remove(temp, this);
+                            Previous.Left = Right;
+                        }
+                        else
+                        {
+                            Previous.Right = Right;
+                        }
+                    }
+                    else
+                    {
+                        if (Left.Right != null)
+                        {
+                            int temp = Left.Right.Value;
+                            Left.Remove(temp, this);
                             Value = temp;
                         }
                         else
                         {
-                            temp = Left.Value;
+                            int temp = Left.Value;
                             Left.Remove(temp, this);
                             Value = temp;
                         }
