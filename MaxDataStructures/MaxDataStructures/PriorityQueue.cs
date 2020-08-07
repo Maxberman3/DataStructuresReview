@@ -5,15 +5,29 @@ namespace MaxDataStructures
     public class PriorityQueue<T>
     {
         private HeapNode<T>[] Heap;
-        private int maxSize = 0;
+        public int maxSize = 0; //TODO: for testing purposes is public, restore to private after
         private int Levels = 0;
         private int lastIndex = 0;
 
         public PriorityQueue()
         {
-            Heap = new HeapNode<T>[15];
-            maxSize = 15;
-            Levels = 4;
+            Heap = new HeapNode<T>[7]; //TODO: For ease of testing, do 3 levels, actual implementation should probably be 4
+            maxSize = 7;
+            Levels = 3;
+        }
+        public bool IsEmpty
+        {
+            get
+            {
+                return lastIndex == 0;
+            }
+        }
+        public int Size
+        {
+            get
+            {
+                return lastIndex + 1;
+            }
         }
 
         private void ResizeHeap(int addLevels)
@@ -32,19 +46,55 @@ namespace MaxDataStructures
             }
             Heap = temp;
         }
-        public void Insert(T value, int priority)
+        public void Insert(T job, int priority)
         {
-            Insert(new HeapNode<T>(value, priority));
+            if (priority <= 0)
+            {
+                throw new Exception("You can't have a higher priority than 1 in the queue");
+            }
+            Insert(new HeapNode<T>(job, priority));
         }
-        public void Insert(HeapNode<T> heapNode)
+        private void Insert(HeapNode<T> heapNode)
         {
             Heap[lastIndex] = heapNode;
             Heapify();
             lastIndex++;
             if (lastIndex == (maxSize - 1))
             {
-                ResizeHeap(2);
+                if (maxSize < 5000)
+                {
+                    ResizeHeap(2);
+                }
+                else
+                {
+                    ResizeHeap(1);
+                }
             }
+        }
+        public void DecreasePriority(T job, int priority, int decrease)
+        {
+            DecreasePriority(new HeapNode<T>(job, priority), decrease);
+        }
+        private void DecreasePriority(HeapNode<T> job, int decrease)
+        {
+            foreach (HeapNode<T> node in Heap)
+            {
+                if (node.Equals(job))
+                {
+                    node.Priority += decrease;
+                    break;
+                }
+            }
+            Heapify();
+        }
+        public T ExtractMin()
+        {
+            T nextJob = Heap[0].Value;
+            Heap[0] = Heap[lastIndex];
+            Heap[lastIndex] = null;
+            lastIndex--;
+            Heapify();
+            return nextJob;
         }
         private void Heapify()
         {
