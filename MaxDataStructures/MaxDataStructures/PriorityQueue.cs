@@ -26,7 +26,7 @@ namespace MaxDataStructures
         {
             get
             {
-                return lastIndex + 1;
+                return lastIndex;
             }
         }
 
@@ -113,6 +113,7 @@ namespace MaxDataStructures
                     {
                         SwapIndexes(parent, left);
                     }
+                    break;
                 }
                 else
                 {
@@ -124,6 +125,7 @@ namespace MaxDataStructures
                     {
                         SwapIndexes(parent, right);
                     }
+                    parent++;
                 }
             }
         }
