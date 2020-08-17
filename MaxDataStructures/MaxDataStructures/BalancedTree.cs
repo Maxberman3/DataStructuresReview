@@ -20,12 +20,21 @@ namespace MaxDataStructures
             }
 
         }
+        public BalancedTree()
+        {
+
+        }
         public BalancedTree(IComparable Value)
         {
             Root = new BalancedTreeNode(Value);
         }
         public void Insert(IComparable Value)
         {
+            if (Root == null)
+            {
+                Root = new BalancedTreeNode(Value);
+                return;
+            }
             Root.Insert(Value);
         }
 
@@ -64,21 +73,17 @@ namespace MaxDataStructures
                     {
                         return Left.Height - Right.Height;
                     }
-                    else if (Left == null && Right == null)
-                    {
-                        return 0;
-                    }
                     else if (Right != null && Left == null)
                     {
-                        return -Right.Height;
+                        return -1 - Right.Height;
                     }
                     else if (Left != null && Right == null)
                     {
-                        return Left.Height;
+                        return Left.Height + 1;
                     }
                     else
                     {
-                        return Left.Height - Right.Height;
+                        return 0;
                     }
                 }
             }
