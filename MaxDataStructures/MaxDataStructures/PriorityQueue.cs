@@ -7,7 +7,7 @@ namespace MaxDataStructures
         private HeapNode<T>[] Heap;
         public int maxSize = 0; //TODO: for testing purposes is public, restore to private after
         private int Levels = 0;
-        private int lastIndex = 0;
+        private int nextIndex = 0;
 
         public PriorityQueue()
         {
@@ -19,14 +19,14 @@ namespace MaxDataStructures
         {
             get
             {
-                return lastIndex == 0;
+                return nextIndex == 0;
             }
         }
         public int Size
         {
             get
             {
-                return lastIndex;
+                return nextIndex;
             }
         }
 
@@ -56,10 +56,10 @@ namespace MaxDataStructures
         }
         private void Insert(HeapNode<T> heapNode)
         {
-            Heap[lastIndex] = heapNode;
+            Heap[nextIndex] = heapNode;
             Heapify();
-            lastIndex++;
-            if (lastIndex == (maxSize - 1))
+            nextIndex++;
+            if (nextIndex == (maxSize - 1))
             {
                 if (maxSize < 5000)
                 {
@@ -90,9 +90,9 @@ namespace MaxDataStructures
         public T ExtractMin()
         {
             T nextJob = Heap[0].Value;
-            Heap[0] = Heap[lastIndex];
-            Heap[lastIndex] = null;
-            lastIndex--;
+            Heap[0] = Heap[nextIndex - 1];
+            Heap[nextIndex - 1] = null;
+            nextIndex--;
             Heapify();
             return nextJob;
         }
@@ -117,7 +117,7 @@ namespace MaxDataStructures
                 }
                 else
                 {
-                    if (Heap[left].Priority < Heap[right].Priority && Heap[left].Priority < Heap[parent].Priority)
+                    if (Heap[left].Priority <= Heap[right].Priority && Heap[left].Priority < Heap[parent].Priority)
                     {
                         SwapIndexes(parent, left);
                     }
