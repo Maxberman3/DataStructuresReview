@@ -20,6 +20,14 @@ namespace MaxDataStructures
             }
 
         }
+        public BalancedTree(IComparable Value)
+        {
+            Root = new BalancedTreeNode(Value);
+        }
+        public void Insert(IComparable Value)
+        {
+            Root.Insert(Value);
+        }
 
         public class BalancedTreeNode
         {
@@ -80,13 +88,28 @@ namespace MaxDataStructures
             }
             public void Insert(IComparable newValue)
             {
+
                 if (newValue.CompareTo(Value) <= 0)
                 {
-                    Left = new BalancedTreeNode(newValue);
+                    if (Left == null)
+                    {
+                        Left = new BalancedTreeNode(newValue);
+                    }
+                    else
+                    {
+                        Left.Insert(newValue);
+                    }
                 }
                 else
                 {
-                    Right = new BalancedTreeNode(newValue);
+                    if (Right == null)
+                    {
+                        Right = new BalancedTreeNode(newValue);
+                    }
+                    else
+                    {
+                        Right.Insert(newValue);
+                    }
                 }
             }
 
