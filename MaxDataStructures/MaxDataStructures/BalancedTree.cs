@@ -38,6 +38,56 @@ namespace MaxDataStructures
                 return;
             }
             Root.Insert(Value);
+            CheckAndBalance();
+        }
+        public string PreOrder()
+        {
+            return Root.PreOrderPrint();
+        }
+        public void Remove(IComparable value)
+        {
+            if (value.Equals(Root.Value))
+            {
+                if (Root.IsLeaf())
+                {
+                    Root = null;
+                }
+                else if (Root.Left == null && Root.Right != null)
+                {
+                    Root = Root.Right;
+                }
+                else if (Root.Left != null && Root.Right == null)
+                {
+                    Root = Root.Left;
+                }
+                else
+                {
+                    if (Root.Left.Right != null)
+                    {
+                        IComparable temp = Root.Left.Right.Value;
+                        Root.Left.Remove(temp, Root);
+                        Root.Value = temp;
+                    }
+                    else
+                    {
+                        IComparable temp = Root.Left.Value;
+                        Root.Value = temp;
+                        Root.Left.Remove(temp, Root);
+                    }
+                }
+            }
+            else if (value.CompareTo(Root.Value) > 0)
+            {
+                Root.Right.Remove(value, Root);
+            }
+            else
+            {
+                Root.Left.Remove(value, Root);
+            }
+            CheckAndBalance();
+        }
+        private void CheckAndBalance()
+        {
             if (Root.Balance > 1)
             {
                 if (Root.Left.Balance > 0)
@@ -63,11 +113,6 @@ namespace MaxDataStructures
                 }
             }
         }
-        public string PreOrder()
-        {
-            return Root.PreOrderPrint();
-        }
-
     }
     public class BalancedTreeNode
     {
@@ -147,6 +192,10 @@ namespace MaxDataStructures
                     Right.Insert(newValue);
                 }
             }
+            CheckAndBalance();
+        }
+        private void CheckAndBalance()
+        {
             if (Left != null)
             {
                 if (Left.Balance > 1)
@@ -242,6 +291,78 @@ namespace MaxDataStructures
                 str += Right.PreOrderPrint();
             }
             return str;
+        }
+        public void Remove(IComparable val, BalancedTreeNode Previous)
+        {
+            bool wentLeft = val.CompareTo(Previous.Value) <= 0;
+            if (Value.Equals(val))
+            {
+                if (IsLeaf())
+                {
+                    if (wentLeft)
+                    {
+                        Previous.Left = null;
+                    }
+                    else
+                    {
+                        Previous.Right = null;
+                    }
+                }
+                else if (Left != null && Right == null)
+                {
+                    if (wentLeft)
+                    {
+                        Previous.Left = Left;
+                    }
+                    else
+                    {
+                        Previous.Right = Left;
+                    }
+                }
+                else if (Right != null && Left == null)
+                {
+                    if (wentLeft)
+                    {
+                        Previous.Left = Right;
+                    }
+                    else
+                    {
+                        Previous.Right = Right;
+                    }
+                }
+                else
+                {
+                    if (Left.Right != null)
+                    {
+                        IComparable temp = Left.Right.Value;
+                        Left.Remove(temp, this);
+                        Value = temp;
+                    }
+                    else
+                    {
+                        IComparable temp = Left.Value;
+                        Left.Remove(temp, this);
+                        Value = temp;
+                    }
+                }
+            }
+            else if (val.CompareTo(Value) > 0)
+            {
+                Right.Remove(val, this);
+            }
+            else
+            {
+                Left.Remove(val, this);
+            }
+            CheckAndBalance();
+        }
+        public bool IsLeaf()
+        {
+            if (Left == null && Right == null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

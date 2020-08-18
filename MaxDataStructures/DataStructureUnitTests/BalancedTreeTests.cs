@@ -105,5 +105,19 @@ namespace DataStructureUnitTests
             }
             Assert.IsTrue(tree.PreOrder() == "302010254050");
         }
+        [TestMethod]
+        public void TestRemoval()
+        {
+            List<int> data = new List<int>
+            {
+                9,5,10,0,6,11,-1,1,2
+            };
+            BalancedTree tree = new BalancedTree();
+            foreach (int datum in data)
+            {
+                tree.Insert(datum);
+            }
+            Assert.IsTrue(tree.PreOrder() == "910-15261011");
+        }
     }
 }
