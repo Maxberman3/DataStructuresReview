@@ -4,6 +4,8 @@ namespace MaxDataStructures
 {
     public class BalancedTree
     {
+
+        //TODO: I implemented the balance and height via a recursive check, but this adds alot of unnecessary overhead. MUCH BETTER would be to update the height attributes on insertion, rotation, and removal, then simply calculate the balance based on the heights of the children.
         private BalancedTreeNode Root { get; set; }
         public int Balance
         {
@@ -145,63 +147,71 @@ namespace MaxDataStructures
                     Right.Insert(newValue);
                 }
             }
-            if (Left.Balance > 1)
+            if (Left != null)
             {
-                //left node violates balance property
-                if (Left.Left.Balance > 0)
+                if (Left.Balance > 1)
                 {
-                    //left left
-                    Left = Left.RightRotate();
+                    //left node violates balance property
+                    if (Left.Left.Balance > 0)
+                    {
+                        //left left
+                        Left = Left.RightRotate();
+                    }
+                    else
+                    {
+                        //left-right case
+                        Left.Left = Left.Left.LeftRotate();
+                        Left = Left.RightRotate();
+                    }
+                    return;
                 }
-                else
+                else if (Left.Balance < -1)
                 {
-                    //left-right case
-                    Left.Left = Left.Left.LeftRotate();
-                    Left = Left.RightRotate();
+                    //left node violates balance property
+                    if (Left.Right.Balance < 0)
+                    {
+                        //right-right
+                        Left = Left.LeftRotate();
+                    }
+                    else
+                    {
+                        //right-left case
+                        Left.Right = Left.Right.RightRotate();
+                        Left = Left.LeftRotate();
+                    }
+                    return;
                 }
             }
-            else if (Left.Balance < -1)
+            if (Right != null)
             {
-                //left node violates balance property
-                if (Left.Right.Balance < 0)
+                if (Right.Balance > 1)
                 {
-                    //right-right
-                    Left = Left.LeftRotate();
+                    //right node violates balance property
+                    if (Right.Left.Balance > 0)
+                    {
+                        //left-left
+                        Right = Right.RightRotate();
+                    }
+                    else
+                    {
+                        //left-right case
+                        Right.Left = Right.Left.LeftRotate();
+                        Right = Right.RightRotate();
+                    }
                 }
-                else
+                else if (Right.Balance < -1)
                 {
-                    //right-left case
-                    Left.Right = Left.Right.RightRotate();
-                    Left = Left.LeftRotate();
-                }
-            }
-            else if (Right.Balance > 1)
-            {
-                //right node violates balance property
-                if (Right.Left.Balance > 0)
-                {
-                    //left-left
-                    Right = Right.RightRotate();
-                }
-                else
-                {
-                    //left-right case
-                    Right.Left = Right.Left.LeftRotate();
-                    Right = Right.RightRotate();
-                }
-            }
-            else if (Right.Balance < -1)
-            {
-                if (Right.Right.Balance < 0)
-                {
-                    //right-right
-                    Right = Right.LeftRotate();
-                }
-                else
-                {
-                    //right-left
-                    Right.Right = Right.Right.RightRotate();
-                    Right = Right.LeftRotate();
+                    if (Right.Right.Balance < 0)
+                    {
+                        //right-right
+                        Right = Right.LeftRotate();
+                    }
+                    else
+                    {
+                        //right-left
+                        Right.Right = Right.Right.RightRotate();
+                        Right = Right.LeftRotate();
+                    }
                 }
             }
         }
