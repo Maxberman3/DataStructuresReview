@@ -116,8 +116,80 @@ namespace MaxDataStructures
                         Right.Insert(newValue);
                     }
                 }
+                if (Left.Balance > 1)
+                {
+                    //left node violates balance property
+                    if (Left.Left.Balance > 0)
+                    {
+                        //left left
+                        Left = RightRotate(Left);
+                    }
+                    else
+                    {
+                        //left-right case
+                        Left.Left = LeftRotate(Left.Left);
+                        Left = RightRotate(Left);
+                    }
+                }
+                else if (Left.Balance < -1)
+                {
+                    //left node violates balance property
+                    if (Left.Right.Balance < 0)
+                    {
+                        //right-right
+                        Left = LeftRotate(Left);
+                    }
+                    else
+                    {
+                        //right-left case
+                        Left.Right = RightRotate(Left.Right);
+                        Left = LeftRotate(Left);
+                    }
+                }
+                else if (Right.Balance > 1)
+                {
+                    //right node violates balance property
+                    if (Right.Left.Balance > 0)
+                    {
+                        //left-left
+                        Right = RightRotate(Right);
+                    }
+                    else
+                    {
+                        //left-right case
+                        Right.Left = LeftRotate(Right.Left);
+                        Right = RightRotate(Right);
+                    }
+                }
+                else if (Right.Balance < -1)
+                {
+                    if (Right.Right.Balance < 0)
+                    {
+                        //right-right
+                        Right = LeftRotate(Right);
+                    }
+                    else
+                    {
+                        //right-left
+                        Right.Right = RightRotate(Right.Right);
+                        Right = LeftRotate(Right);
+                    }
+                }
             }
-
+            public BalancedTreeNode RightRotate(BalancedTreeNode pivot)
+            {
+                BalancedTreeNode newRoot = pivot.Left;
+                pivot.Left = pivot.Left.Right;
+                newRoot.Right = pivot;
+                return newRoot;
+            }
+            public BalancedTreeNode LeftRotate(BalancedTreeNode pivot)
+            {
+                BalancedTreeNode newRoot = pivot.Right;
+                pivot.Right = pivot.Right.Left;
+                newRoot.Left = pivot;
+                return newRoot;
+            }
         }
     }
 }
