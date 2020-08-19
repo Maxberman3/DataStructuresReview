@@ -118,6 +118,9 @@ namespace DataStructureUnitTests
                 tree.Insert(datum);
             }
             Assert.IsTrue(tree.PreOrder() == "910-15261011");
+            tree.Remove(10);
+            string result = tree.PreOrder();
+            Assert.IsTrue(result == "10-1952611");
         }
     }
 }

@@ -90,7 +90,7 @@ namespace MaxDataStructures
         {
             if (Root.Balance > 1)
             {
-                if (Root.Left.Balance > 0)
+                if (Root.Left.Balance >= 0)
                 {
                     Root = Root.RightRotate();
                 }
@@ -102,7 +102,7 @@ namespace MaxDataStructures
             }
             else if (Root.Balance < -1)
             {
-                if (Root.Right.Balance < 0)
+                if (Root.Right.Balance <= 0)
                 {
                     Root = Root.LeftRotate();
                 }
@@ -201,7 +201,7 @@ namespace MaxDataStructures
                 if (Left.Balance > 1)
                 {
                     //left node violates balance property
-                    if (Left.Left.Balance > 0)
+                    if (Left.Left.Balance >= 0)
                     {
                         //left left
                         Left = Left.RightRotate();
@@ -217,7 +217,7 @@ namespace MaxDataStructures
                 else if (Left.Balance < -1)
                 {
                     //left node violates balance property
-                    if (Left.Right.Balance < 0)
+                    if (Left.Right.Balance <= 0)
                     {
                         //right-right
                         Left = Left.LeftRotate();
@@ -236,7 +236,7 @@ namespace MaxDataStructures
                 if (Right.Balance > 1)
                 {
                     //right node violates balance property
-                    if (Right.Left.Balance > 0)
+                    if (Right.Left.Balance >= 0)
                     {
                         //left-left
                         Right = Right.RightRotate();
@@ -250,7 +250,7 @@ namespace MaxDataStructures
                 }
                 else if (Right.Balance < -1)
                 {
-                    if (Right.Right.Balance < 0)
+                    if (Right.Right.Balance <= 0)
                     {
                         //right-right
                         Right = Right.LeftRotate();
